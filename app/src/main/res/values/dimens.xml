@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="keyline_0">2dp</dimen>
+    <dimen name="keyline_1">4dp</dimen>
+    <dimen name="keyline_2">8dp</dimen>
+    <dimen name="keyline_3">12dp</dimen>
+    <dimen name="keyline_4">16dp</dimen>
+    <dimen name="keyline_5">24dp</dimen>
+    <dimen name="keyline_6">32dp</dimen>
+    <dimen name="keyline_7">48dp</dimen>
+    <dimen name="keyline_8">56dp</dimen>
+    <dimen name="keyline_9">72dp</dimen>
+    <dimen name="keyline_10">104dp</dimen>
+    <dimen name="keyline_11">168dp</dimen>
+    <dimen name="keyline_12">250dp</dimen>
+    <dimen name="fab_margin">16</dimen>
+
+    <integer name="splash_delay">1500</integer>
+    <integer name="contact_us_delay">3500</integer>
+    <integer name="delay">500</integer>
+</resources>

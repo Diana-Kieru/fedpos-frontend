@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+    <color name="red"> #EC2027</color>
+    <color name="blue"> #2C3590</color>
+    <color name="grey"> #BDBDBD</color>
+    <color name="muted"> #FEF7FF</color>
+    <color name="lightGrey">#1F1F1F</color>
+    <color name="gray3">#828282</color>
+    <color name="gray2">#4F4F4F</color>
+    <color name="secondary2">#475569</color>
+    <color name="success">#06AF03</color>
+    <color name="grey2">#F0EEEE</color>
+    <color name="gray_surface">#D9D9D9</color>
+    <color name="gray_f2">#F2F2F2</color>
+    <color name="gray_d2">#D2D2D2</color>
+    <color name="gray_80">#CAC4D0</color>
+    <color name="scrim">#1A000000</color>
+    <color name="background">#40000000</color>
+
+    <color name="color_primary">@color/red</color>
+    <color name="color_error">@color/red</color>
+</resources>
