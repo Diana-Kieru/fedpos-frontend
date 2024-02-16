@@ -13,41 +13,52 @@ import com.example.fedpos_frontend.model.AddProductResponse
 
 
 class ProductAdapter(
-    private val onItemClicked: (AddProductResponse) -> Unit
+
 ) : RecyclerView.Adapter<ProductAdapter.ExperienceViewHolder>() {
     private val items: ArrayList<AddProductResponse> = ArrayList()
 
     class ExperienceViewHolder(
         itemView: View,
-        private val onItemClicked: (AddProductResponse) -> Unit
+        //private val onItemClicked: (AddProductResponse) -> Unit
     ) :
         RecyclerView.ViewHolder(itemView) {
 
         private val imageView: ImageView = itemView.findViewById(R.id.experienceImageView)
         private val name: TextView = itemView.findViewById(R.id.experienceNameTextView)
         private val price: TextView = itemView.findViewById(R.id.experiencePriceTextView)
-        private val description: TextView =
-            itemView.findViewById(R.id.experienceDescriptionTextView)
+        private val description: TextView = itemView.findViewById(R.id.experienceDescriptionTextView)
+        private val discount: TextView = itemView.findViewById(R.id.editTextDiscount)
+        private val vat: TextView = itemView.findViewById(R.id.editTextVAT)
+        private val targetAmount: TextView = itemView.findViewById(R.id.experiencePriceTextView)
+
 
 
         fun bind(item: AddProductResponse) {
             // Initialize Glide to load the image from the URL.
-            Glide.with(itemView.context)
-//                .load(item.avatarUrl) // You can set a placeholder image
-//                .into(imageView)
+            Glide
+                .with(itemView.context)
+                .load(item.image) // You can set a placeholder image
+                .placeholder(R.drawable.experience)
+                .into(imageView)
+            //private val onItemClicked: (AddProductResponse) -> Unit
 
             name.text = item.name
-            price.text = item.price.toString()
-            description.text = item.name
-            imageView.setImageResource(R.drawable.experience)
+            price.text = item.targetAmount
+            description.text = item.description.toString()
+            discount.text = item.discount.toString()
+            vat.text = item.vat.toString()
+            targetAmount.text = item.targetAmount
 
 
 
 
 
-            itemView.setOnClickListener {
-                onItemClicked(item)
-            }
+
+//            imageView.setImageResource(R.drawable.experience)
+
+//            itemView.setOnClickListener {
+//                onItemClicked(item) onItemClicked
+//            }
         }
 
 
@@ -58,7 +69,7 @@ class ProductAdapter(
         val experienceItem = LayoutInflater.from(parent.context)
             .inflate(R.layout.product_list_item, parent, false)
 
-        return ExperienceViewHolder(experienceItem, onItemClicked)
+        return ExperienceViewHolder(experienceItem)
     }
 
     override fun getItemCount(): Int {
@@ -70,10 +81,10 @@ class ProductAdapter(
         holder.bind(item)
     }
 
-    fun updateItems(items: List<AddProductResponse>, clearItems: Boolean = false) {
-        if (clearItems) {
-            this.items.clear()
-        }
+    fun updateItems(items: List<AddProductResponse>) {
+//        if (clearItems) {
+//            this.items.clear()
+//        }
         this.items.addAll(items)
         notifyDataSetChanged()
     }

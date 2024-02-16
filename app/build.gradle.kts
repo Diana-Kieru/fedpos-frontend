@@ -1,6 +1,7 @@
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
+    id("kotlin-kapt")
 }
 
 android {
@@ -36,7 +37,7 @@ android {
     }
     buildFeatures {
         viewBinding = true
-        dataBinding = true
+dataBinding = true
     }
 }
 
@@ -63,7 +64,8 @@ dependencies {
     implementation ("androidx.recyclerview:recyclerview:1.3.2")
     implementation ("androidx.cardview:cardview:1.0.0")
     implementation ("com.github.bumptech.glide:glide:4.12.0")
-
+    implementation ("com.github.bumptech.glide:glide:4.12.0")
+    kapt ("com.github.bumptech.glide:compiler:4.8.0")
 
 
 

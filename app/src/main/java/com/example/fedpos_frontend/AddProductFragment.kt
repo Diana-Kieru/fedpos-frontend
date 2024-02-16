@@ -5,9 +5,11 @@ import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.Matrix
+import android.net.Uri
 import android.os.Bundle
 import android.os.Environment
 import android.provider.MediaStore
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -20,6 +22,7 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.NavHostFragment
 import com.example.fedpos_frontend.model.AddProductResponse
 import com.example.fedpos_frontend.model.CategoryType
+import com.example.fedpos_frontend.model.ProductsModel
 import com.example.fedpos_frontend.network.ApiService
 import com.example.fedpos_frontend.network.NetworkClient
 import com.google.android.material.textfield.TextInputEditText
@@ -43,10 +46,13 @@ class AddProductFragment : Fragment() {
     private lateinit var targetAmount: TextInputEditText
     private lateinit var textInputLayoutUnit: TextInputEditText
     private lateinit var type: AutoCompleteTextView
+    private lateinit var editTextVAT: TextInputEditText
+    private lateinit var editTextDiscount: TextInputEditText
     private lateinit var createButton: Button
     private lateinit var backArrow: ImageView
     private lateinit var imageView: ImageView
     private var partToUpload: MultipartBody.Part? = null
+    var imageUri : Uri? = null
 
     val GALLERY_REQUEST_CODE = 100
 
@@ -54,11 +60,13 @@ class AddProductFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         name = view.findViewById(R.id.editTextFirstName)
-        description = view.findViewById(R.id.textInputExperienceDescription)
+        description = view.findViewById(R.id.editTextEventDescription)
         targetAmount = view.findViewById(R.id.editTextTargetAmount)
         type = view.findViewById(R.id.autoCompleteTextView)
+        editTextVAT = view.findViewById(R.id.editTextVAT)
+        editTextDiscount = view.findViewById(R.id.editTextDiscount)
         createButton = view.findViewById(R.id.buttonCreateEvent)
-        textInputLayoutUnit = view.findViewById(R.id.textInputLayoutUnit)
+        textInputLayoutUnit = view.findViewById(R.id.editTextUnit)
         imageView = view.findViewById(R.id.imageView)
         backArrow = view.findViewById(R.id.backArrow)
 
@@ -103,6 +111,8 @@ class AddProductFragment : Fragment() {
                     .show()
                 return@setOnClickListener
             }
+
+
             if (name.text.toString().isBlank()) {
                 name.error = " Name is required"
                name.requestFocus()
@@ -114,17 +124,17 @@ class AddProductFragment : Fragment() {
                 return@setOnClickListener
             }
             if (targetAmount.text.toString().isBlank()) {
-                targetAmount.error = "Target Amount is required"
+                targetAmount.error = "Price Amount is required"
                 targetAmount.requestFocus()
                 return@setOnClickListener
             }
             if (targetAmount.text.toString().toInt() < 1000) {
-               targetAmount.error = " Target must be great than 1000"
+               targetAmount.error = " Price must be great than 1000"
                 targetAmount.requestFocus()
                 return@setOnClickListener
             }
             if (targetAmount.text.toString().toInt() > 1000000) {
-                targetAmount.error = " Target must be less than 1000000"
+                targetAmount.error = " Price must be less than 1000000"
                targetAmount.requestFocus()
                 return@setOnClickListener
             }
@@ -139,15 +149,28 @@ class AddProductFragment : Fragment() {
                 return@setOnClickListener
             }
 
+
+
+
+
 //            make api call on products
             val apiService = NetworkClient.retrofitInstance?.create(ApiService::class.java)
-            val call = apiService?.addProduct(
-                name.text.toString(),
-                description.text.toString(),
+
+
+           Log.e("partencoding", "$partToUpload")
+           val model = ProductsModel(
+               name.text.toString(),
+               description.text.toString(),
                targetAmount.text.toString().toInt(),
-                textInputLayoutUnit.text.toString(),
-                type.text.toString(),
-                partToUpload!!
+               textInputLayoutUnit.text.toString(),
+               type.text.toString(),
+               vat = editTextVAT.text.toString().toInt(),
+                discount = editTextDiscount.text.toString().toInt(),
+                image = partToUpload!!
+            )
+
+            val call = apiService?.addProduct(
+                model
             )
             call?.enqueue(object : Callback<AddProductResponse> {
                 override fun onResponse(
@@ -163,6 +186,8 @@ class AddProductFragment : Fragment() {
                         NavHostFragment.findNavController(this@AddProductFragment)
                             .popBackStack()
                     } else {
+
+
                         Toast.makeText(
                             requireContext(),
                             "Failed to create ",
@@ -188,6 +213,7 @@ class AddProductFragment : Fragment() {
         if (requestCode == GALLERY_REQUEST_CODE && resultCode == Activity.RESULT_OK && data != null) {
             // Handle the selected image here
             val selectedImageUri = data.data
+            imageUri = data.data
 
             if (selectedImageUri != null) {
                 // get bitmap from the result URI
