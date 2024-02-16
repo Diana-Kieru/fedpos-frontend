@@ -38,15 +38,15 @@ class ProductAdapter(
             Glide
                 .with(itemView.context)
                 .load(item.image) // You can set a placeholder image
-                .placeholder(R.drawable.experience)
+                .placeholder(R.drawable.toothbrush)
                 .into(imageView)
             //private val onItemClicked: (AddProductResponse) -> Unit
 
             name.text = item.name
             price.text = item.targetAmount
             description.text = item.description.toString()
-            discount.text = item.discount.toString()
-            vat.text = item.vat.toString()
+            discount.text = "Discount: " + item.discount.toString() + "%"
+            vat.text = "VAT: " + item.vat.toString() + "%"
             targetAmount.text = item.targetAmount
 
 
